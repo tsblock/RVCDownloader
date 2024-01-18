@@ -1,0 +1,4 @@
+.env
+selenium/
+venv/
+.DS_STORE
