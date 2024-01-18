@@ -1,7 +1,9 @@
 # HKUST RVC videos bulk downloader
-This project uses yt-dlp and Selenium to download RVC videos from a list of URLs.
+This project uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [Selenium](https://www.selenium.dev/) to download RVC videos from a list of URLs.
 
-You need Google Chrome or Mozilla Firefox to be installed on your computer, oh and FFmpeg too.
+You probably need FFmpeg to be installed.
+
+Supports videos from `rvcmedia.ust.hk` and `hkust.zoom.us`.
 ## Usage
 ### Setup virtual environment
 ```sh
@@ -16,4 +18,4 @@ include the file path of the links too
 ```sh
 python main.py links.txt
 ```
-You will be asked to login with your ITSC account, please do it :), then the program will handle the rest
+You will be asked to login with your ITSC account, please do it :), then the program will handle the rest.
