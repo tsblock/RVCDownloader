@@ -2,3 +2,4 @@
 selenium/
 venv/
 .DS_STORE
+output/

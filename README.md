@@ -3,7 +3,7 @@ This project uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [Selenium](http
 
 You probably need FFmpeg to be installed.
 
-Supports videos from `rvcmedia.ust.hk` and `hkust.zoom.us`.
+Supports videos from `rvcmedia.ust.hk` and `hkust.zoom.us` (planned, not implemented yet).
 ## Usage
 ### Setup virtual environment
 ```sh
@@ -13,9 +13,11 @@ python -m venv venv/ && source venv/bin/activate
 ```sh
 pip install -r requirements.txt
 ```
+### Edit configuration
+Rename `.env.example` to `.env` and change accordingly.
 ### Run the damn script
 include the file path of the links too
+each video link should be seperated by new line
 ```sh
 python main.py links.txt
 ```
-You will be asked to login with your ITSC account, please do it :), then the program will handle the rest.

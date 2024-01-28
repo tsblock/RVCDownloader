@@ -1,14 +1,12 @@
 import sys
 import time
 
-import selenium.webdriver.chrome.webdriver
+from dotenv import dotenv_values
+from selenium import webdriver
 from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-
-from selenium import webdriver
-from dotenv import dotenv_values
 from yt_dlp import YoutubeDL
 
 urls = []
@@ -53,7 +51,7 @@ def handle_zoom(driver: webdriver.Chrome):
     handle_microsoft_login(driver)
 
 
-def find_rvc_m3u8_url(driver, url) -> str:
+def find_rvc_m3u8_url(driver: webdriver.Chrome, url: str) -> str:
     driver.get(url)
     driver.implicitly_wait(1.0)
     driver.find_element(By.ID, "rvcMediaPlayer")
@@ -62,8 +60,18 @@ def find_rvc_m3u8_url(driver, url) -> str:
     return media_url
 
 
+#TODO: make yt-dlp download video
+def download_url(url: str):
+    ytdlp_options = {}
+    ytdl = YoutubeDL()
+    pass
+
+
 if "microsoftonline" in driver.current_url:
     handle_microsoft_login(driver)
 
+
 for url in urls:
-    print(find_rvc_m3u8_url(driver, url))
+
+    actual_url = find_rvc_m3u8_url(driver, url)
+    download_url(actual_url)
