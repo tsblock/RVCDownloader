@@ -1,5 +1,7 @@
 import sys
 import time
+from pathlib import Path
+from urllib.parse import urlparse, parse_qs
 
 from dotenv import dotenv_values
 from selenium import webdriver
@@ -14,9 +16,12 @@ file_name = sys.argv[1] or None
 if file_name is None:
     print("Please provide a filename!")
     sys.exit(1)
+file_name = Path(file_name)
 file = open(file_name, "r")
 for line in file:
-    urls.append(line.strip())
+    line = line.strip()
+    if line:
+        urls.append(line.strip())
 
 driver_options = Options()
 driver_options.add_argument("user-data-dir=selenium")
@@ -25,8 +30,9 @@ driver = webdriver.Chrome(options=driver_options)
 driver.get(urls[0])
 
 
-def handle_microsoft_login(driver: webdriver.Chrome):
+def handle_microsoft_login(driver):
     try:
+        driver.implicitly_wait(1.0)
         driver.find_element(By.XPATH, "//*[@id=\"tilesHolder\"]/div[1]/div/div[1]/div/div[2]/div").click()
     except NoSuchElementException:
         driver.implicitly_wait(1.0)
@@ -39,11 +45,11 @@ def handle_microsoft_login(driver: webdriver.Chrome):
         driver.find_element(By.XPATH, "//*[@id=\"i0118\"]").send_keys(dotenv_values(".env")["PASSWORD"])
         driver.implicitly_wait(1.0)
         driver.find_element(By.XPATH, "//*[@id=\"idSIButton9\"]").click()
-    WebDriverWait(driver, timeout=30.0).until(lambda x: "microsoftonline" not in driver.current_url)
-    WebDriverWait(driver, timeout=60.0).until(lambda x: "duosecurity" not in driver.current_url)
+    WebDriverWait(driver, timeout=30.0).until(lambda _: "microsoftonline" not in driver.current_url)
+    WebDriverWait(driver, timeout=60.0).until(lambda _: "duosecurity" not in driver.current_url)
 
 
-def handle_zoom(driver: webdriver.Chrome):
+def handle_zoom(driver):
     if not "zoom.us/signin" in driver.current_url:
         return
     driver.implicitly_wait(1.0)
@@ -51,7 +57,7 @@ def handle_zoom(driver: webdriver.Chrome):
     handle_microsoft_login(driver)
 
 
-def find_rvc_m3u8_url(driver: webdriver.Chrome, url: str) -> str:
+def find_rvc_m3u8_url(driver, url):
     driver.get(url)
     driver.implicitly_wait(1.0)
     driver.find_element(By.ID, "rvcMediaPlayer")
@@ -61,10 +67,14 @@ def find_rvc_m3u8_url(driver: webdriver.Chrome, url: str) -> str:
 
 
 #TODO: make yt-dlp download video
-def download_url(url: str):
-    ytdlp_options = {}
-    ytdl = YoutubeDL()
-    pass
+def download_url(url, filename):
+    ytdlp_options = {
+        "path": "",
+        "outtmpl": f"./output/{filename}.%(ext)s",
+        "concurrent_fragment_downloads": 10
+    }
+    ytdl = YoutubeDL(params=ytdlp_options)
+    ytdl.download(url)
 
 
 if "microsoftonline" in driver.current_url:
@@ -72,6 +82,8 @@ if "microsoftonline" in driver.current_url:
 
 
 for url in urls:
-
+    # what about zoom links?
+    filename = parse_qs(urlparse(url).query)["path"][0]
     actual_url = find_rvc_m3u8_url(driver, url)
-    download_url(actual_url)
+    print(actual_url, filename)
+    download_url(actual_url, filename)
