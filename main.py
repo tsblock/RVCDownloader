@@ -33,20 +33,30 @@ driver.get(urls[0])
 def handle_microsoft_login(driver):
     try:
         driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, "//*[@id=\"tilesHolder\"]/div[1]/div/div[1]/div/div[2]/div").click()
+        driver.find_element(
+            By.XPATH, '//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div'
+        ).click()
     except NoSuchElementException:
         driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, "//*[@id=\"i0116\"]").send_keys(dotenv_values(".env")["MAIL"])
+        driver.find_element(By.XPATH, '//*[@id="i0116"]').send_keys(
+            dotenv_values(".env")["MAIL"]
+        )
         driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, "//*[@id=\"idSIButton9\"]").click()
+        driver.find_element(By.XPATH, '//*[@id="idSIButton9"]').click()
     finally:
         time.sleep(1.0)
         driver.implicitly_wait(2.0)
-        driver.find_element(By.XPATH, "//*[@id=\"i0118\"]").send_keys(dotenv_values(".env")["PASSWORD"])
+        driver.find_element(By.XPATH, '//*[@id="i0118"]').send_keys(
+            dotenv_values(".env")["PASSWORD"]
+        )
         driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, "//*[@id=\"idSIButton9\"]").click()
-    WebDriverWait(driver, timeout=30.0).until(lambda _: "microsoftonline" not in driver.current_url)
-    WebDriverWait(driver, timeout=60.0).until(lambda _: "duosecurity" not in driver.current_url)
+        driver.find_element(By.XPATH, '//*[@id="idSIButton9"]').click()
+    WebDriverWait(driver, timeout=30.0).until(
+        lambda _: "microsoftonline" not in driver.current_url
+    )
+    WebDriverWait(driver, timeout=60.0).until(
+        lambda _: "duosecurity" not in driver.current_url
+    )
 
 
 def handle_zoom(driver):
@@ -62,16 +72,16 @@ def find_rvc_m3u8_url(driver, url):
     driver.implicitly_wait(1.0)
     driver.find_element(By.ID, "rvcMediaPlayer")
     media_url = driver.execute_script(
-        'return jwplayer("rvcMediaPlayer").getConfig()["playlist"][0]["sources"][0]["file"]')
+        'return jwplayer("rvcMediaPlayer").getConfig()["playlist"][0]["sources"][0]["file"]'
+    )
     return media_url
 
 
-#TODO: make yt-dlp download video
 def download_url(url, filename):
     ytdlp_options = {
         "path": "",
         "outtmpl": f"./output/{filename}.%(ext)s",
-        "concurrent_fragment_downloads": 10
+        "concurrent_fragment_downloads": 10,
     }
     ytdl = YoutubeDL(params=ytdlp_options)
     ytdl.download(url)
@@ -80,9 +90,8 @@ def download_url(url, filename):
 if "microsoftonline" in driver.current_url:
     handle_microsoft_login(driver)
 
-
 for url in urls:
-    # what about zoom links?
+    # what about zoom links, or any other type?
     filename = parse_qs(urlparse(url).query)["path"][0]
     actual_url = find_rvc_m3u8_url(driver, url)
     print(actual_url, filename)
