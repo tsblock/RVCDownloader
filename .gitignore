@@ -1,6 +1,6 @@
 .env
 selenium/
-venv/
+.venv/
 .DS_STORE
 input/
 output/
