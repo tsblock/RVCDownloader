@@ -1,15 +1,22 @@
 import sys
 import time
 from pathlib import Path
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse
 
 from dotenv import dotenv_values
-from selenium import webdriver
-from selenium.common import NoSuchElementException
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from yt_dlp import YoutubeDL
+
+from RVCMediaScraper import RVCMediaScraper
+from CanvasEmbedRVC import CanvasEmbedRVC
+from CanvasEmbedZoom import CanvasEmbedZoom
+from Zoom import ZoomScraper
+from BaseScraper import BaseScraper
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+if __name__ != '__main__':
+    print("ermm launch this script normally would you?")
+    exit(1)
 
 urls = []
 file_name = sys.argv[1] or None
@@ -27,72 +34,18 @@ driver_options = Options()
 driver_options.add_argument("user-data-dir=selenium")
 # driver_options.add_argument("headless")
 driver = webdriver.Chrome(options=driver_options)
-driver.get(urls[0])
+
+username = dotenv_values(".env")["username"]
+password = dotenv_values(".env")["password"]
+
+zoom = ZoomScraper(driver, username, password)
+
+zoom.login()
+zoom.extract_media_url(
+    "https://hkust.zoom.us/rec/play/zydOARToR_E3myKAFYEr5aD7naX9AC9AIHVIpBTrp0nBaDxtyPLzG1JHZTy7cILYQCxtiFRXhRWMQ0q7.baRBnEDxJMwFpyVL")
+
+zoom.quit()
 
 
-def handle_microsoft_login(driver):
-    try:
-        driver.implicitly_wait(1.0)
-        driver.find_element(
-            By.XPATH, '//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div'
-        ).click()
-    except NoSuchElementException:
-        driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, '//*[@id="i0116"]').send_keys(
-            dotenv_values(".env")["MAIL"]
-        )
-        driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, '//*[@id="idSIButton9"]').click()
-    finally:
-        time.sleep(1.0)
-        driver.implicitly_wait(2.0)
-        driver.find_element(By.XPATH, '//*[@id="i0118"]').send_keys(
-            dotenv_values(".env")["PASSWORD"]
-        )
-        driver.implicitly_wait(1.0)
-        driver.find_element(By.XPATH, '//*[@id="idSIButton9"]').click()
-    WebDriverWait(driver, timeout=30.0).until(
-        lambda _: "microsoftonline" not in driver.current_url
-    )
-    WebDriverWait(driver, timeout=60.0).until(
-        lambda _: "duosecurity" not in driver.current_url
-    )
-
-
-def handle_zoom(driver):
-    if not "zoom.us/signin" in driver.current_url:
-        return
-    driver.implicitly_wait(1.0)
-    driver.find_element(By.CLASS_NAME, "zm-login-methods__item").click()
-    handle_microsoft_login(driver)
-
-
-def find_rvc_m3u8_url(driver, url):
-    driver.get(url)
-    driver.implicitly_wait(1.0)
-    driver.find_element(By.ID, "rvcMediaPlayer")
-    media_url = driver.execute_script(
-        'return jwplayer("rvcMediaPlayer").getConfig()["playlist"][0]["sources"][0]["file"]'
-    )
-    return media_url
-
-
-def download_url(url, filename):
-    ytdlp_options = {
-        "path": "",
-        "outtmpl": f"./output/{filename}.%(ext)s",
-        "concurrent_fragment_downloads": 10,
-    }
-    ytdl = YoutubeDL(params=ytdlp_options)
-    ytdl.download(url)
-
-
-if "microsoftonline" in driver.current_url:
-    handle_microsoft_login(driver)
-
-for url in urls:
-    # what about zoom links, or any other type?
-    filename = parse_qs(urlparse(url).query)["path"][0]
-    actual_url = find_rvc_m3u8_url(driver, url)
-    print(actual_url, filename)
-    download_url(actual_url, filename)
+def detect_url(url: str) -> BaseScraper:
+    pass
