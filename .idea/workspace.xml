@@ -4,17 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="21c0c1ce-7e65-43c6-bde8-65bfd26d147c" name="Changes" comment="Reset .idea/ because had some bugs in PyCharm&#10;&#10;I don't know why but PyCharm can't recognise webdriver, deleting .idea/ solved it">
-      <change afterPath="$PROJECT_DIR$/BaseScraper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CanvasEmbedRVC.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CanvasEmbedZoom.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/RVCMediaScraper.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Zoom.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/old_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/RVCDownloader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/RVCDownloader.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="21c0c1ce-7e65-43c6-bde8-65bfd26d147c" name="Changes" comment="Major rewrite to restructure program">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BaseScraper.py" beforeDir="false" afterPath="$PROJECT_DIR$/BaseScraper.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CanvasEmbedRVC.py" beforeDir="false" afterPath="$PROJECT_DIR$/CanvasEmbedRVC.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Zoom.py" beforeDir="false" afterPath="$PROJECT_DIR$/ZoomScraper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
@@ -38,24 +32,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "Python.main.executor": "Run",
-    "Python.main.py.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.main.py.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="main.py" type="PythonConfigurationType" factoryName="Python">
       <module name="RVCDownloader" />
@@ -99,7 +93,16 @@
       <workItem from="1708672196898" duration="2613000" />
       <workItem from="1708678442639" duration="4022000" />
       <workItem from="1708682565189" duration="10032000" />
-      <workItem from="1708743815139" duration="1584000" />
+      <workItem from="1708743815139" duration="5814000" />
+      <workItem from="1708754509198" duration="623000" />
+      <workItem from="1708756114341" duration="4152000" />
+      <workItem from="1708763454750" duration="16000" />
+      <workItem from="1708763476549" duration="300000" />
+      <workItem from="1708763783520" duration="3000" />
+      <workItem from="1708778901657" duration="628000" />
+      <workItem from="1708922091631" duration="311000" />
+      <workItem from="1708935318717" duration="2000000" />
+      <workItem from="1709032485335" duration="631000" />
     </task>
     <task id="LOCAL-00001" summary="Reset .idea/ because had some bugs in PyCharm&#10;&#10;I don't know why but PyCharm can't recognise webdriver, deleting .idea/ solved it">
       <option name="closed" value="true" />
@@ -109,7 +112,15 @@
       <option name="project" value="LOCAL" />
       <updated>1708672323685</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Major rewrite to restructure program">
+      <option name="closed" value="true" />
+      <created>1708745522164</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1708745522164</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -128,7 +139,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Reset .idea/ because had some bugs in PyCharm&#10;&#10;I don't know why but PyCharm can't recognise webdriver, deleting .idea/ solved it" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reset .idea/ because had some bugs in PyCharm&#10;&#10;I don't know why but PyCharm can't recognise webdriver, deleting .idea/ solved it" />
+    <MESSAGE value="Major rewrite to restructure program" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major rewrite to restructure program" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -142,7 +154,7 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/RVCDownloader$main_py.coverage" NAME="main.py Coverage Results" MODIFIED="1708745402533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/RVCDownloader$main_py.coverage" NAME="main.py Coverage Results" MODIFIED="1708944753974" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/RVCDownloader$main.coverage" NAME="main Coverage Results" MODIFIED="1708672342333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

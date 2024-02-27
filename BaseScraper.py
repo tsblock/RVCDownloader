@@ -16,7 +16,7 @@ class BaseScraper:
         self.bootstrap_url = "https://cas.ust.hk/cas/login?service=https://hkust.edu.hk/stu_intranet/"
 
     def wait_until_element(self, timeout: float, by: str, value: str) -> WebElement:
-        return WebDriverWait(self.driver, timeout).until(EC.presence_of_element_located((by, value)))
+        return WebDriverWait(self.driver, timeout).until(EC.element_to_be_clickable((by, value)))
 
     def login(self):
         # Bootstrap authentication, get us to Microsoft SSO page
@@ -30,7 +30,7 @@ class BaseScraper:
         try:
             # If we have already logged in before, the login page would show account selector
             # This automatically clicks the first account in the selector
-            self.wait_until_element(0.5, By.XPATH,
+            self.wait_until_element(1.0, By.XPATH,
                                     '//*[@id="tilesHolder"]/div[1]/div/div[1]/div/div[2]/div').click()
         except TimeoutException:
             # Username input
@@ -40,11 +40,7 @@ class BaseScraper:
         finally:
             # Password input
             self.wait_until_element(2.0, By.ID, "i0118").send_keys(self.password)
-            sign_in_button = self.wait_until_element(2.0, By.ID, 'idSIButton9')
-            # Sometimes the "Sign in" button would go stale because of Javascript shenanigans
-            # It doesn't happen for the "Next" button in username input
-            WebDriverWait(self.driver, 1.0).until(lambda _: EC.staleness_of(sign_in_button))
-            sign_in_button.click()
+            self.wait_until_element(2.0, By.ID, 'idSIButton9').click()
 
         WebDriverWait(self.driver, timeout=3.0).until(
             lambda _: "microsoftonline" not in self.driver.current_url
