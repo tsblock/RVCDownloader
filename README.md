@@ -1,3 +1,4 @@
+# WORK IN PROGRESS: script not working yet
 # HKUST RVC videos bulk downloader
 This project uses [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [Selenium](https://www.selenium.dev/) to download RVC videos from a list of URLs.
 
@@ -32,9 +33,6 @@ You will be asked to login, do that, also when getting through 2FA select rememb
 
 ## Why use selenium? Using a whole browser just to download some videos seems unnecessary
 That's true, unfortunately I'm lazy and don't want to figure out how to properly interact with HKUST's SSO service.
-
-Also funni reddit meme haha erughhhhh:
-![](https://i.redd.it/o6xypg00uac91.png)
 ## GUI when?
 This project was originally created for personal use, if there's a demand then maybe I will add a GUI. However, I would much prefer if someone else work on it because I have 0 experience on making GUI app. 
 
